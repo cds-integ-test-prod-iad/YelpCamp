@@ -17,7 +17,8 @@ const 	commentRoutes    = require("./routes/comments"),
 		indexRoutes      = require("./routes/index")
 
 // seedDB();
-mongoose.connect("mongodb+srv://zzted:45687asd@cluster0.p6lhs.mongodb.net/<dbname>?retryWrites=true&w=majority", {
+// mongoose.connect("mongodb://localhost:27017/yelp_camp", {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(DATABASE, {
 	useNewUrlParser: true, 
 	useUnifiedTopology: true,
 	useCreateIndex: true
@@ -26,7 +27,6 @@ mongoose.connect("mongodb+srv://zzted:45687asd@cluster0.p6lhs.mongodb.net/<dbnam
 }).catch(err => {
 	console.log('ERROR:', err.message);
 });
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
