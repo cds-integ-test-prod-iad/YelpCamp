@@ -1,5 +1,6 @@
 const 	express     = require("express"),
 		app         = express(),
+	    dotenv      = require("dotenv").config({ path: './VARIABLES.env' }),
 		bodyParser  = require("body-parser"),
 		mongoose    = require("mongoose"),
 		flash       = require("connect-flash"),
@@ -10,7 +11,6 @@ const 	express     = require("express"),
 		Comment     = require("./models/comment"),
 		User        = require("./models/user"),
 		seedDB      = require("./seeds")
-    11111
 //requiring routes
 const 	commentRoutes    = require("./routes/comments"),
 		campgroundRoutes = require("./routes/campgrounds"),

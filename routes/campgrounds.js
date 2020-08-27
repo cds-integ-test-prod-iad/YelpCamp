@@ -23,8 +23,8 @@ var upload = multer({ storage: storage, fileFilter: imageFilter})
 
 cloudinary.config({ 
   cloud_name: 'diabpe3tk', 
-  api_key: '191856434466877', 
-  api_secret: 's86uKUZMGAheB8MAmbAHNtElhKk'
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 
@@ -63,7 +63,7 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-	Campground.findById(req.params.id).populate("comments").exec((err, found) => {
+	Campground.findById(req.params.id).populate("comments likes").exec((err, found) => {
 		if(err){
 			console.log(err);
 		} else {
@@ -122,6 +122,33 @@ router.delete("/:id", middleware.checkCampgroundOwnership, (req, res) => {
 			req.flash("error", err.message);
 			return res.redirect("back");
 		}
+	});
+});
+
+router.post("/:id/like", middleware.isLoggedIn, (req, res) => {
+	Campground.findById(req.params.id, (err, foundCampground) => {
+		if(err) {
+			req.flash("error", err.message);
+			return res.redirect("back");
+		}
+		var foundUserLike = foundCampground.likes.some((like) => {
+			return like.equals(req.user._id);
+		});
+		
+		if(foundUserLike) {
+			foundCampground.likes.pull(req.user._id);
+		} else {
+			foundCampground.likes.push(req.user);
+		}
+		
+		foundCampground.save((err) => {
+			if(err) {
+				console.log(err);
+				req.flash("error", err.message);
+				return res.redirect("back");
+			}
+			return res.redirect(`/campgrounds/${foundCampground._id}`);
+		});
 	});
 });
 
