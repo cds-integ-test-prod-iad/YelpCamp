@@ -33,6 +33,15 @@
 						<h4>
 							<%= campground.name %>
 						</h4>
+						<% if (campground.rating === 0) { %>
+						<em>No reviews yet.</em>
+						<% } else { %>
+						<span class="fas fa-star"></span>
+                        <span class="<% if (campground.rating > 1.5) { %> fas fa-star  <% } else {%> far fa-star <% } %>"></span>
+                        <span class="<% if (campground.rating > 2.5) { %> fas fa-star  <% } else {%> far fa-star <% } %>"></span>
+                        <span class="<% if (campground.rating > 3.5) { %> fas fa-star  <% } else {%> far fa-star <% } %>"></span>
+                        <span class="<% if (campground.rating > 4.5) { %> fas fa-star  <% } else {%> far fa-star <% } %>"></span>
+						<% } %>
 						<div>
                            <span class="badge label-primary"><i class="fas fa-thumbs-up"></i> <%= campground.likes.length %></span>
                        </div>

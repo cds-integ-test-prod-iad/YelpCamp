@@ -1,6 +1,8 @@
 const express = require("express"),
 	  router = express.Router(),
 	  Campground = require("../models/campground"),
+	  Comment = require("../models/comment"),
+	  Review = require("../models/review"),
 	  middleware = require("../middleware"),
 	  multer = require("multer"),
 	  cloudinary = require('cloudinary');
@@ -63,7 +65,10 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-	Campground.findById(req.params.id).populate("comments likes").exec((err, found) => {
+	Campground.findById(req.params.id).populate("comments likes").populate({
+		path: "reviews",
+		options: {sort: {createdAt: -1}}
+	}).exec((err, found) => {
 		if(err){
 			console.log(err);
 		} else {
@@ -115,6 +120,18 @@ router.delete("/:id", middleware.checkCampgroundOwnership, (req, res) => {
 			if(campground.imageId){
 				await cloudinary.v2.uploader.destroy(campground.imageId);
 			}
+			await Comment.remove({"_id" : {$in: campground.comments}}, err => {
+				if(err) {
+					console.log(err);
+					return res.redirect("/campgrounds");
+				}
+			});
+			await Review.remove({"_id": {$in: campground.reviews}}, err => {
+				if(err) {
+					console.log(err);
+					return res.redirect("/campgrounds");
+				}
+			});
 			campground.remove();
 			req.flash("success", "Campground deleted successfully!");
 			res.redirect("/campgrounds")
