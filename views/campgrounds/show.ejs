@@ -15,17 +15,15 @@
 		<div class="card">
 			<img class="card-img-top" src="<%= campground.image %>" alt="<%= campground.name %>">
 			<div class="card-body">
-				<p class="float-right">$<%= campground.price %>/night</p>
-				<h4 class="card-title float-left clearfix"><a><%= campground.name %></a></h4>
-				<!-- Likes Section -->
-				<div class="float-right">
-					<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#campgroundLikes">
-						<span>Total likes: <i class="fas fa-thumbs-up"></i>
-							<%= campground.likes.length %>
-						</span>
-					</button>
+				<div class="row justify-content-between px-2">
+					<h4 class="card-title"><a><%= campground.name %></a></h4>
+					<div>$<%= campground.price %>/night</div>
+					
 				</div>
-				<div style="padding-bottom: 10px;">
+				
+				<!-- Likes Section -->
+
+				<div class="row px-2 my-2">
 					<form action="/campgrounds/<%= campground._id%>/like" method="POST">
 						<div class="btn-group">
 							<% if (currentUser && campground.likes.some((like) => {
@@ -39,18 +37,22 @@
 								<i class="fas fa-thumbs-up"> Like (<%= campground.likes.length%>)</i>
 							</button>
 							<% } %>
-							<button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#campgroundLikes">
+							<button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#campgroundLikes">
 								See more details
 							</button>
 						</div>
 					</form>
 				</div>
-				<p class="card-text">
-					<%= campground.description %>
-				</p>
+				<row>
+					<p class="card-text">
+						<%= campground.description %>
+					</p>
+				</row>
+				
 				<p>
-					<em>Submitted by <%= campground.author.username %>, <%= moment(campground.createdAt).fromNow() %></em>
+					<em>Submitted by: <a href="/users/<%= campground.author.id %>"><%= campground.author.username %></a>, <%= moment(campground.createdAt).fromNow() %></em>
 				</p>
+				
 				<% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
 				<div class="float-right">
 					<a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
@@ -84,12 +86,11 @@
 				<hr class="mt-0">
 				<% campground.reviews.slice(0, 5).forEach(function(review){ %>
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-md-12">
 						<%- '<span class="fas fa-star"></span>'.repeat(review.rating) %><%- '<span class="far fa-star"></span>'.repeat(5 - review.rating) %>
-						<div>Review by: <strong><%= review.author.username %></strong></div>
-						<span><em><%= review.updatedAt.toDateString() %></em></span>
+						
 					</div>
-					<div class="col-md-9">
+					<div class="col-md-12">
 						<p style="text-align: justify; word-wrap: break-word;">
 							<%= review.text %>
 						</p>
@@ -102,6 +103,8 @@
 							</form>
 						</div>
 						<% } %>
+						<div>Review by: <strong><%= review.author.username %></strong></div>
+						<span><em><%= review.updatedAt.toDateString() %></em></span>
 					</div>
 				</div>
 				<hr>
@@ -122,31 +125,35 @@
 				</div>
 			</div>
 		</div>
-		
-		<!-- Continue Woke Here -->
+
 		<!-- Comment Section -->
 		<div class="card">
-			<div class="text-right">
-				<a class="btn btn-xs btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
-			</div>
-			<hr>
-			<% campground.comments.forEach((comment) => { %>
-			<div class="row">
-				<div class="col-md-12">
-					<strong><%= comment.author.username %></strong>
-					<span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
-					<p>
-						<%= comment.text %>
-					</p>
-					<% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
-						<a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
-						<form action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" class="delete-form">
-							<input type="submit" class="btn btn-xs btn-danger" value="Delete">
-						</form>
-					<% } %>
+			<div class="card-body">
+				<div class="text-right">
+					<a class="btn btn-xs btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
 				</div>
-			</div>	
-			<% }) %>
+				<hr>
+				<% campground.comments.forEach((comment) => { %>
+				<div class="row">
+					<div class="col-md-12">
+						<strong><%= comment.author.username %></strong>
+						<span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+						<p>
+							<%= comment.text %>
+						</p>
+						<div class="float-right">
+							<% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+								<a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
+								<form action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" class="delete-form">
+									<input type="submit" class="btn btn-xs btn-danger" value="Delete">
+								</form>
+							<% } %>
+						</div>
+						
+					</div>
+				</div>	
+				<% }) %>
+			</div>
 		</div>
 	</div>
 </div>
@@ -157,8 +164,10 @@
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="modal-title">Campground likes: <%= campground.likes.length %></h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
 				<table class="table table-striped">
@@ -168,7 +177,7 @@
 					</tr>
 					</thead>
 					<tbody>
-					<% campground.likes.forEach(function(like) { %>
+					<% campground.likes.forEach(like => { %>
 						<tr>
 							<td><span class="badge"><i class="fas fa-user"></i></span> <%= like.username %></td>
 						</tr>

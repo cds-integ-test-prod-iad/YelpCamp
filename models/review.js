@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 var reviewSchema = new mongoose.Schema({
 	rating: {
 		type: Number,
@@ -31,5 +30,6 @@ var reviewSchema = new mongoose.Schema({
 }, {
 	timestamps: true
 });
+
 
 module.exports = mongoose.model("Review", reviewSchema);

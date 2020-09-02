@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
 		<link rel="stylesheet" href="/stylesheets/main.css">
+		<script type='text/javascript' src='/views/reviews/rating.js'></script>
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
@@ -26,6 +27,7 @@
 						<% } else { %>
 							<li class="nav-item active"><a href="#" class="nav-link">Signed In As <%= currentUser.username %></a></li>
 							<li class="nav-item active"><a href="/logout" class="nav-link">Logout</a></li>
+					 		<li class="nav-item active"><a href="/users/<%= currentUser.id %>" class="nav-link">Your Profile</a></li>
 						<% } %>
 					</ul>
     			<!-- <form class="form-inline mt-2 mt-md-0">
