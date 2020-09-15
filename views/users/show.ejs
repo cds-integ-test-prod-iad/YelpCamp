@@ -1,24 +1,23 @@
 <%- include("../partials/header") %>
 
+<link rel="stylesheet" href="/stylesheets/profile.css">
+
 <div class="container">
 	<div class="row">
 		<div class="card col-md-12">
 			<div class="card-body">
 				<div class="card-title mb-4">
 					<div class="d-flex justify-content-start">
-						<div class="image-container">
-							<img src="<%= user.avatar %>" id="imgProfile" style="width: 150px; height:150px">
+						<div class="image-container myContainer">
+							<img src="<%= user.avatar %>" id="imgProfile" class="avatarImage">
+							<% if(currentUser && user._id.equals(currentUser._id)){ %>
 							<div class="middle">
-								<button type="button" class="btn btn-secondary" id="btnChangePicture" data-toggle="modal" data-target="#changeAvatar">
-									Change
+								<button type="button" class="btn btn-outline-light" id="btnChangePicture" data-toggle="modal" data-target="#changeAvatar">
+									Edit
 								</button>
-								
-								<button type="button" class="btn btn-secondary">
-									<a href="/forgot">reset password</a>
-								</button>
-								
-								<input type="file" style="display: none;" id="profilePicture" name="file">
 							</div>
+							<% } %>
+							<input type="file" style="display: none;" id="profilePicture" name="file">
 						</div>
 						<div class="userData ml-3">
 							<h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascript:void(0);"><%= user.username %></a></h2>
@@ -30,42 +29,50 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-12">
-						<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-							<li class="nav-item">
-								<a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="camps-tab" data-toggle="tab" href="#camps" role="tab" aria-controls="connectedServices" aria-selected="false">Camp Posts</a>
-							</li>
-						</ul>
-						<div class="tabl-content ml-1" id="myTabContent">
-							<div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
-								<div class="row">
-									<div class="col-sm-3 col-md-2 col-5">
-										<label style="font-weight:bold;">Full Name</label>
-									</div>
-									<div class="col-md-8 col-6">
-										<%= user.firstName + " " + user.lastName %>
+				<nav>
+					<div class="nav nav-tabs mb-3" id="myTab" role="tablist">
+						<a class="nav-item nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+						<a class="nav-item nav-link" id="camps-tab" data-toggle="tab" href="#camps" role="tab" aria-controls="connectedServices" aria-selected="false">Camp Posts</a>
+					</div>
+				</nav>
+				<div class="tab-content" id="myTabContent">
+					<div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="nav-home-tab">
+						<div class="row">
+							<div class="col-sm-3 col-md-2 col-5">
+								<label style="font-weight:bold;">Full Name</label>
+							</div>
+							<div class="col-md-8 col-6">
+								<%= user.firstName + " " + user.lastName %>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-3 col-md-2 col-5">
+								<label style="font-weight:bold;">Email</label>
+							</div>
+							<div class="col-md-8 col-6">
+								<%= user.email %>
+							</div>
+						</div>
+						<div class="row">
+							<button type="button" class="btn btn-outline-dark">
+								<a href="/forgot">Reset Password</a>
+							</button>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="camps" role="tabpanel" aria-labelledby="camps-tab">
+						<div class="row text-center" style="display:flex; flex-wrap: wrap;">
+							<% campgrounds.forEach(function(campground) { %>
+								<div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+									<div class="card bg-dark text-white myCard">
+											<img src="<%= campground.image %>" alt="<%= campground.name %>" class="card-img-top cardImage">
+										<div class="card-img-overlay">
+											<h5 class="card-title middle" style="left: 50%;">
+												<a type="button" class="btn btn-outline-light" id="btnChangePicture" href="/campgrounds/<%= campground.id %>">More</a>
+											</h5>
+										</div>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-sm-3 col-md-2 col-5">
-										<label style="font-weight:bold;">Email</label>
-									</div>
-									<div class="col-md-8 col-6">
-										<%= user.email %>
-									</div>
-								</div>
-							</div>
-							<div class="tab-pane fade" id="camps" role="tabpanel" aria-labelledby="camps-tab">
-							<ul>
-								<% campgrounds.forEach(function(campground) { %>
-									<li><a href="/campgrounds/<%= campground.id %>"><%= campground.name %></a></li>
-								<% }); %>
-							</ul>
-							</div>
+							<% }); %>
 						</div>
 					</div>
 				</div>

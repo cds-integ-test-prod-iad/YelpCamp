@@ -1,0 +1,56 @@
+.myContainer {
+  position: relative;
+  width: 50%;
+}
+
+.avatarImage {
+  opacity: 1;
+  display: block;
+  width: 75%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 37.5%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.myContainer:hover .avatarImage {
+  opacity: 0.3;
+}
+
+.myContainer:hover .middle {
+  opacity: 1;
+}
+
+#btnChangePicture {
+  font-size: 16px;
+  padding: 8px 16px;
+}
+
+
+
+.myCard:hover .middle {
+  opacity: 1;
+}
+
+.cardImage {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.myCard:hover .cardImage {
+  opacity: 0.3;
+}

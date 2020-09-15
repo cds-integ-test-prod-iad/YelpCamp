@@ -1,5 +1,6 @@
 const Campground = require("../models/campground"),
 	  Comment = require("../models/comment"),
+	  User = require("../models/user"),
 	  Review = require("../models/review");
 
 var middlewareObj = {};
@@ -65,6 +66,27 @@ middlewareObj.checkReviewOwnership = function(req, res, next) {
 					next();
 				} else {
 					req.flash("error", "You don't own that review!");
+					return res.redirect("back");
+				}
+			}
+		});
+	} else {
+		req.flash("error", "Please login first!");
+		return res.redirect("back");
+	}
+}
+
+middlewareObj.checkProfileOwnership = function(req, res, next) {
+	if(req.isAuthenticated()){
+		User.findById(req.params.id, (err, foundUser) => {
+			if(err || !foundUser) {
+				req.flash("error", err.message);
+				return res.redirect("back");
+			} else {
+				if(foundUser._id.equals(req.user._id)) {
+					next();
+				} else {
+					req.flash("error", "Permission denied.");
 					return res.redirect("back");
 				}
 			}

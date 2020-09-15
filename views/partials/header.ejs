@@ -1,52 +1,104 @@
-  
 <!DOCTYPE html>
 <html>
 	<head>
+		<!-- https://codepen.io/albizan/pen/mMWdWZ
+		https://codepen.io/h3xc0ntr0l/pen/BoNEXq -->
 		<title>YelpCamp</title>
-		<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
 		<link rel="stylesheet" href="/stylesheets/main.css">
-		<script type='text/javascript' src='/views/reviews/rating.js'></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 	</head>
-	<body>
-		<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-    			<span class="navbar-toggler-icon"></span>
-  			</button>
- 			 <div class="collapse navbar-collapse" id="navbarCollapse">
-				 <ul class="navbar-nav mr-auto">
-					 <li class="nav-item active">
-					 	<a class="navbar-brand" href="/">YelpCamp</a>
-					 </li>
-				 </ul>
-   				 <ul class="navbar-nav">
+	<body style="background: black;">
+		<nav class="nav myNav fixed-top">
+			<div class="container justify-content-between" style="height: 20px; width: 80%; margin-left: auto; margin-right: auto; padding: 0;">
+				<div class="logo col-4 pl-0">
+					<!-- <a href="/"><img src="https://hyperpix.net/wp-content/uploads/2019/08/cyberpunk-2077-logo-font-download.jpg" style="width:82px; height:86px"></a> -->
+					<!-- <a href="/">Cyber</a> -->
+					<div class="dropdown">
+						<button class="btn btn-sm btn-primary btn-block neon-button">Contents</button>
+						<div class="dropdown-content">
+							<a href="/campgrounds">Campgrounds</a>
+							<a href="#">Armory</a>
+							<a href="#">Design Ideas</a>
+						</div>
+					</div>
+				</div>
+				
+				<div id="mainListDiv col-4" class="main_list">
+					<ul class="navlinks">
 						<% if(!currentUser) {%>
-							<li class="nav-item active"><a href="/login" class="nav-link">Login</a></li>
-							<li class="nav-item active"><a href="/register" class="nav-link">Sign Up</a></li>
+							<li><a class="btn btn-sm btn-primary btn-block neon-button" href="/login">Login</a></li>
+							<li class="pr-0"><a class="btn btn-sm btn-primary btn-block neon-button" href="/register">Sign Up</a></li>
 						<% } else { %>
-							<li class="nav-item active"><a href="#" class="nav-link">Signed In As <%= currentUser.username %></a></li>
-							<li class="nav-item active"><a href="/logout" class="nav-link">Logout</a></li>
-					 		<li class="nav-item active"><a href="/users/<%= currentUser.id %>" class="nav-link">Your Profile</a></li>
+							<li><a class="btn btn-sm btn-primary btn-block neon-button" href="#"><%= currentUser.username %></a></li>
+							<li><a class="btn btn-sm btn-primary btn-block neon-button" href="/logout">Logout</a></li>
+							<li class="pr-0"><a class="btn btn-sm btn-primary btn-block neon-button" href="/users/<%= currentUser.id %>">Profile</a></li>
 						<% } %>
 					</ul>
-    			<!-- <form class="form-inline mt-2 mt-md-0">
-      				<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-      				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-   				 </form> -->
-  			</div>
+				</div>
+				
+				<span class="navTrigger">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</div>
 		</nav>
-		<div class="container">
-			<% if(error && error.length > 0){ %>
-			<div class="alert alert-danger" role="alert">
-				<%= error %>
+		
+		<script>
+			$(window).scroll(function() {
+				if ($(document).scrollTop() > 50) {
+					$('.myNav').addClass('affix');
+					console.log("OK");
+				} else {
+					$('.myNav').removeClass('affix');
+				}
+			});
+			
+			$('.navTrigger').click(function () {
+				$(this).toggleClass('active');
+				console.log("Clicked menu");
+				$("#mainListDiv").toggleClass("show_list");
+				$("#mainListDiv").fadeIn();
+			});
+			
+
+		</script>
+		
+		<section class="home">
+			<ul class="slideshow">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</section>
+		
+		<div class="container card neon" id="mainContent" style="width: 80%; margin-top: 13rem;">
+			<div class="container" style="width:100%">
+				<% if(error && error.length > 0){ %>
+				<div class="alert alert-danger neon-text-static" role="alert">
+					<%= error %>
+				</div>
+				<% } %>
 			</div>
-			<% } %>
-		</div>
-		<div class="container">
-			<% if(success && success.length > 0){ %>
-			<div class="alert alert-success" role="alert">
-				<%= success %>
+			<div class="container" style="width:100%">
+				<% if(success && success.length > 0){ %>
+				<div class="alert alert-success neon-text-static" role="alert">
+					<%= success %>
+				</div>
+				<% } %>
 			</div>
-			<% } %>
-		</div>
+			
+		
+		

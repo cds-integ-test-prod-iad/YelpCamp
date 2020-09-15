@@ -97,7 +97,7 @@ router.get("/users/:id", function(req, res) {
   });
 });
 
-router.put("/users/:id", upload.single('image'), (req, res) => {
+router.put("/users/:id", middleware.checkProfileOwnership, upload.single('image'), (req, res) => {
 	User.findById(req.params.id, async (err, foundUser) => {
         if(err){
             req.flash("error", err.message);

@@ -1,0 +1,32 @@
+.camp_card{
+	border-radius: 20px;
+	/* box-shadow:
+	  0 0 0.1vw  0.4vw #f7faff,   
+	  0 0 0.4vw  0.6vw #75eaf0, 
+	  0 0   4vw  0.4vw #00ffff,
+	  inset 0 0 1.5vw  0.4vw #00ffff,
+	  inset 0 0 0.4vw  0.2vw #75eaf0,
+	  inset 0 0 0.5vw  0.2vw #f7faff; */
+	border: 0.1rem solid #28D7FE;
+	background: rgba(0, 0, 0, 0.5);
+	box-shadow:
+            0 0 .5rem #426DFB,
+            inset 0 0 .5rem #426DFB,
+            0 0 2rem #28D7FE,
+            inset 0 0 1rem #28D7FE,
+            0 0 4rem #28D7FE,
+            inset 0 0 2rem #28D7FE; 
+	border-radius: .5rem;
+}
+
+.camp_card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.cardtext {
+	font-size: 1vw;
+}
+
+.neon-text-static{
+	text-shadow: 0 0 1vw #FA1C16, 0 0 1vw #FA1C16, 0 0 1vw #FA1C16, 0 0 1vw #FA1C16, 0 0 .4vw #FED128, .1vw .1vw .1vw #806914;
+}
